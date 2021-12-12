@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -16,10 +17,14 @@ var app = new Vue({
             parametric_max_t: "",
             point_x: "",
             point_y: "",
+            graphType: "interval",
+            nSamples: "",
+
             // 光标位置
             pointer: 0
-        }]
+        }],
     },
+
     methods: {
         // 函数预处理
         pre_process: function (func) {
@@ -32,15 +37,19 @@ var app = new Vue({
                 tmp_txt = tmp_txt.replace(/\^([0-9]*[a-zA-Zθ]*)/g, function (word) {
                     return "^(" + word.substring(1, word.length) + ")";
                 });
+
                 return tmp_txt
             }
+
             function abs_process(func) {
                 // 支持绝对值符号
                 let tmp_txt = func.replace(/\|(.*?)\|/g, "abs($&)");
                 func = tmp_txt.replace(/\|/g, "");
                 return func
             }
+
             function nobrackets_process(func) {
+
                 let tmp_txt = func
                 // 支持所有三角函数不带括号的情况
                 tmp_txt = tmp_txt.replace(/sin([0-9]*[a-zA-Zθ]+)/g, function (word) {
@@ -62,7 +71,9 @@ var app = new Vue({
                     return "arctan(" + word.substring(6, word.length) + ")";
                 });
                 return tmp_txt
+
             }
+
             function pi_process(func) {
                 // 处理所有的π
                 let tmp_txt = func
@@ -72,6 +83,7 @@ var app = new Vue({
                 tmp_txt = tmp_txt.replace(/π/g, "PI");
                 return tmp_txt
             }
+
             function theta_process(func) {
                 // 处理所有的θ
                 let tmp_txt = func
@@ -81,6 +93,7 @@ var app = new Vue({
                 tmp_txt = tmp_txt.replace(/θ/g, "theta");
                 return tmp_txt
             }
+
             function log_process(func) {
                 // 处理所有的log
                 let tmp_txt = func
@@ -89,6 +102,7 @@ var app = new Vue({
                 });
                 return tmp_txt
             }
+
             function exp_process(func) {
                 // 处理e相关，转换为exp()函数
                 let tmp_txt = func
@@ -113,6 +127,7 @@ var app = new Vue({
                 tmp_txt = tmp_txt.replace(/EXPRESSION_TMP/g, "exp"); // 最终替换为exp
                 return tmp_txt
             }
+
             function arc_process(func, arc_str) {
                 // 变种括号匹配算法，替换掉反三角函数，转换为普通三角函数的倒数
                 let arc_left = arc_str + "("
@@ -208,7 +223,7 @@ var app = new Vue({
 
         get_cipher_text_reply: function (key) {
             key = escape(key)
-            // console.log(key);
+            console.log(key);
             let c_map = {
                 "%u6211%u559C%u6B22%u4F60": "%u6211%u4E5F%u559C%u6B22%u4F60",
                 "%u6211%u7231%u4F60": "%u4E5F%u7231%u4F60",
@@ -221,6 +236,8 @@ var app = new Vue({
         },
 
         credit_reply: function (ls) {
+
+            console.log(ls);
             for (let i = 0; i < ls.length; i++) {
                 let ele = ls[i];
                 let sentence = "";
@@ -246,13 +263,14 @@ var app = new Vue({
 
         // 绘制函数图像
         draw_function: function () {
+            console.log("funclist"+this.func_list.graphType);
             let data = []
             this.func_list.forEach(ele => {
                 switch (ele.fnType) {
                     case "normal_explicit":
                         data.push({
                             fn: this.pre_process(ele.fn),
-                            graphType: 'polyline'
+                            //graphType: 'polyline'
                         })
                         break;
                     case "normal_implicit":
@@ -299,6 +317,25 @@ var app = new Vue({
                         break;
                 }
             });
+            this.func_list.forEach(ele => {
+                switch (ele.graphType) {
+                    case "interval":
+                        data.push({
+                            fn: this.pre_process(ele.fn),
+                            graphType: 'interval'
+                        })
+                        break;
+                    case "scatter":
+                        data.push({
+                            fn: this.pre_process(ele.fn),
+                            graphType: 'scatter',
+                            nSamples: 100
+                        })
+                        break;
+                    default:
+                        break;
+                }
+            });
             if (this.credit_reply(this.func_list)) {
                 return
             }
@@ -325,6 +362,8 @@ var app = new Vue({
                 parametric_max_t: "",
                 point_x: "",
                 point_y: "",
+                graphtype: "",
+                nSamples: ""
             })
         },
 
@@ -385,7 +424,7 @@ var app = new Vue({
 
 
 function plot(param) {
-    data = []
+    let data = []
     if (param.data) {
         data = param.data
     }
@@ -398,17 +437,20 @@ function plot(param) {
     })
     $('#root').empty()
     functionPlot({
-        target: "#root",
+        target: '#root',
         width: $('#root').width(),
         height: $('#root').width(),
+        grid: true,
+        data: data,
         xAxis: {
-            domain: param.x_range
+            domain: param.x_range,
+            lable: 'x'
         },
         yAxis: {
-            domain: param.y_range
+            domain: param.y_range,
+            lable: 'y'
         },
-        grid: true,
-        data: data
+
     });
 }
 

@@ -22,7 +22,8 @@
     <script src="public/js/vue.min.js"></script>
     <script src="public/js/jquery-3.6.0.min.js"></script>
     <script src="public/js/bootstrap.min.js"></script>
-    <script src="public/js/function-plot.min.js"></script>
+    <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
+    <!--<script src="public/js/function-plot.min.js"></script>-->
 
 
     <title>函数图像绘制工具</title>
@@ -74,6 +75,12 @@
                                 <option value="haveparam" disabled>有参函数</option>
                                 <option value="integral" disabled>积分</option>
                                 <option value="differential" disabled>微分</option>
+                            </select>
+
+                            <select class="form-select mb-3" aria-label="Default select example" v-model="fun.graphType">
+                                <option value='polyline'>折线</option>
+                                <option value='scatter'>虚线</option>
+                                <option value='interval'>实线</option>
                             </select>
 
                             <!-- 普通函数 -->
@@ -948,7 +955,26 @@
                     <div id="root"></div>
                 </div>
             </div>
-
+            <canvas id="drawing-board"></canvas>
+            <div class="color-group">
+                <ul>
+                    <li id="white" class="color-item" style="background-color: white;"></li>
+                    <li id="black" class="color-item active" style="background-color: black;"></li>
+                    <li id="red" class="color-item" style="background-color: #FF3333;"></li>
+                    <li id="blue" class="color-item" style="background-color: #0066FF;"></li>
+                    <li id="yellow" class="color-item" style="background-color: #FFFF33;"></li>
+                    <li id="green" class="color-item" style="background-color: #33CC66;"></li>
+                    <li id="gray" class="color-item" style="background-color: gray;"></li>
+                </ul>
+            </div>
+            <div id="range-wrap"><input type="range" id="range" min="1" max="30" value="5" title="调整笔刷粗细"></div>
+            <div class="tools">
+                <button id="brush" class="active" title="画笔"><i class="iconfont icon-qianbi"></i></button>
+                <button id="eraser" title="橡皮擦"><i class="iconfont icon-xiangpi"></i></button>
+                <button id="clear" title="清空"><i class="iconfont icon-qingchu"></i></button>
+                <button id="undo" title="撤销"><i class="iconfont icon-chexiao"></i></button>
+                <button id="save" title="保存"><i class="iconfont icon-fuzhi"></i></button>
+            </div>
             <!-- 版权 -->
             <div class="row footer_box">
                 <div class="col">
@@ -963,6 +989,8 @@
 
         </div>
     </div>
+
+
 
     <!-- 函数绘制 -->
     <script src="public/js/draw_function.js"></script>
