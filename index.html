@@ -2,6 +2,7 @@
 <html lang="zh">
 
 <head>
+
     <meta charset="utf-8">
 
     <!-- 移动端自适应 -->
@@ -10,13 +11,20 @@
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
     <link href="public/css/style.css" rel="stylesheet">
     <link href="public/css/bootstrap.font.css" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_584725_0nyjbeaxjw2ep14i.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/css/bootstrap-slider.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css'>
 
-    <!-- <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+    <!--
+    <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
     <script>
         // 初始化
         var vConsole = new VConsole();
         console.log('Hello world');
-    </script> -->
+    </script>
+    -->
+
 
     <!-- 引入外部库 -->
     <script src="public/js/vue.min.js"></script>
@@ -27,6 +35,7 @@
 
 
     <title>函数图像绘制工具</title>
+
 </head>
 
 <body>
@@ -78,9 +87,11 @@
                             </select>
 
                             <select class="form-select mb-3" aria-label="Default select example" v-model="fun.graphType">
+
                                 <option value='polyline'>折线</option>
                                 <option value='scatter'>虚线</option>
                                 <option value='interval'>实线</option>
+
                             </select>
 
                             <!-- 普通函数 -->
@@ -216,7 +227,7 @@
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="click_keyboard('0', index, 'f_'+index, 1, 'fn')">0</button>
                                                     </div>
-                            
+
                                                     <div class="col grid_btn d-grid">
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="click_keyboard('.', index, 'f_'+index, 1, 'fn')">.</button>
@@ -259,7 +270,7 @@
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="click_keyboard('arctan()', index, 'f_'+index, 7, 'fn')">arctan</button>
                                                     </div>
-                                                   
+
                                                     <div class="col grid_btn d-grid">
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="keyboard_delete(index, 'f_'+index, 'fn')">删除</button>
@@ -299,11 +310,11 @@
                                             <div class="input-group">
                                                 <span class="input-group-text" id="basic-addon1">r(θ) = </span>
                                                 <input type="text" class="form-control" id="fun_normal_polar"
-                                                    placeholder="请输入函数" v-model="fun.fn_polar"
-                                                    v-bind:ref="'polar_'+index">
+                                                       placeholder="请输入函数" v-model="fun.fn_polar"
+                                                       v-bind:ref="'polar_'+index">
                                                 <button class="btn btn-outline-primary" type="button"
-                                                    data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse1_' + index"
-                                                    aria-expanded="false" v-bind:aria-controls="'collapse1_' + index">
+                                                        data-bs-toggle="collapse" v-bind:data-bs-target="'#collapse1_' + index"
+                                                        aria-expanded="false" v-bind:aria-controls="'collapse1_' + index">
                                                     键盘
                                                 </button>
                                             </div>
@@ -623,7 +634,7 @@
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="click_keyboard('log()()', index, 'f_x_'+index, 4, 'parametric_fn_x')">log</button>
                                                     </div>
-                                                    
+
                                                     <div class="col grid_btn d-grid">
                                                         <button type="button" class="btn btn-outline-primary"
                                                             v-on:click="click_keyboard('0', index, 'f_x_'+index, 1, 'parametric_fn_x')">0</button>
@@ -951,10 +962,41 @@
 
             <!-- 图像 -->
             <div class="row">
-                <div class="col">
-                    <div id="root"></div>
+                <div class="col" >
+
+
+
+                    <div id="root" >
+
+                    </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+            <!--画板-->
+
+                <!-- 版权 -->
+                <div class="row footer_box">
+                    <div class="col">
+                        <figure class="text-center page_footer">
+                            <figcaption class="blockquote blockquote-footer">
+                                Copyright © Wenhang 范译 石岩 版权所有
+                            </figcaption>
+                        </figure>
+
                 </div>
             </div>
+
+        </div>
+    <div class="row">
+        <div class="col">
             <canvas id="drawing-board"></canvas>
             <div class="color-group">
                 <ul>
@@ -975,25 +1017,22 @@
                 <button id="undo" title="撤销"><i class="iconfont icon-chexiao"></i></button>
                 <button id="save" title="保存"><i class="iconfont icon-fuzhi"></i></button>
             </div>
-            <!-- 版权 -->
-            <div class="row footer_box">
-                <div class="col">
-                    <figure class="text-center page_footer">
-                        <figcaption class="blockquote blockquote-footer">
-                            Copyright © Wenhang Chen 陈文航 版权所有
-                        </figcaption>
-                    </figure>
-
-                </div>
-            </div>
-
         </div>
     </div>
 
 
+    </div>
+
+
+
+
 
     <!-- 函数绘制 -->
-    <script src="public/js/draw_function.js"></script>
+  <script src="public/js/main.js"></script>
+
+  <script src="public/js/draw_function.js"></script>
+
+
 </body>
 
 </html>

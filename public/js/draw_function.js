@@ -441,6 +441,7 @@ function plot(param) {
         width: $('#root').width(),
         height: $('#root').width(),
         grid: true,
+        disableZoom:true,
         data: data,
         xAxis: {
             domain: param.x_range,
